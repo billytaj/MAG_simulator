@@ -84,5 +84,14 @@ RUN wget https://compsysbio.org/bacarena_deps/load_bacarena_libs.R
 RUN LD_LIBRARY_PATH=/usr/lib64 Rscript install_bacarena_deps.R
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib64"
 
+WORKDIR /MAG_tools
+#eggnog-mapper
+RUN wget https://github.com/eggnogdb/eggnog-mapper/archive/refs/tags/2.1.12.zip -O eggnog_mapper.zip \
+&& unzip eggnog_mapper.zip \
+&& mv eggnog-mapper-2.1.12 eggnog_mapper 
+
+WORKDIR eggnog_mapper
+RUN python3 download_eggnog_data.py -y
+
 WORKDIR /
 CMD ["bash"]
